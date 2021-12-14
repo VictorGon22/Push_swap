@@ -19,8 +19,6 @@ typedef struct s_variables
     int pos_smaller;
     int pos_bigger;
     int side1; // 1 per anar a la dreta 0 per anar a la esquerra
-    int side2; // 1 per anar a la dreta 0 per anar a la esquerra
-    int side;
 } t_variables;
 
 typedef struct func_poiner

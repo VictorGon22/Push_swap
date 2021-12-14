@@ -23,14 +23,12 @@ void func_rra(t_node *l_a)
     }
     tmp = l_a;
     tmp->data = data;
-    printf("RRA\n");
 }
 
 void func_rrr(t_node *l_a, t_node *l_b)
 {
     func_rra(l_a);
     func_rra(l_b);
-    printf("RRR\n");
 }
 
 void func_ra(t_node *l_a)
@@ -46,14 +44,12 @@ void func_ra(t_node *l_a)
         tmp = tmp->nextPtr;
     }
     tmp->data = data;
-    printf("RA\n");
 }
 
 void func_rr(t_node *l_a, t_node *l_b)
 {
     func_ra(l_a);
     func_ra(l_b);
-    printf("RR\n");
 }
 void func_pa(t_node **l_a, t_node **l_b, t_variables *var)
 {
@@ -66,7 +62,6 @@ void func_pa(t_node **l_a, t_node **l_b, t_variables *var)
     var->count_lb--;
     *l_a = a_final;
     *l_b = tmp_b->nextPtr;
-    printf("PA\n");
 }
 
 void func_pb(t_node **l_a, t_node **l_b, t_variables *var)
@@ -80,7 +75,6 @@ void func_pb(t_node **l_a, t_node **l_b, t_variables *var)
     var->count_la--;
     *l_b = b_final;
     *l_a = tmp_a->nextPtr;
-    printf("PB\n");
 }
 
 void func_sa(t_node *l_a, t_variables *var)
@@ -94,7 +88,6 @@ void func_sa(t_node *l_a, t_variables *var)
     }
     else
         printf("Not enough arguments in l_a\n");
-    printf("SA\n");
 }
 
 void func_sb(t_node *l_b, t_variables *var) 
@@ -108,15 +101,13 @@ void func_sb(t_node *l_b, t_variables *var)
         tmp->nextPtr->data = valuetmp;
     }
     else
-        printf("Not enough arguments in l_b\n");
-    printf("SB\n");
+        printf("Not enough arguments in l_b\n"); 
 }
 
 void func_sc(t_node *l_a, t_node *l_b, t_variables *var)
 {
     func_sa(l_a, var);
     func_sb(l_b, var);
-    printf("SC\n");
 }
 
 void printlinked(t_node *file)
@@ -223,36 +214,30 @@ int get_last_value(t_node *l_a)
 
 void find_closer(t_variables *var, t_node **l_a, t_node **l_b)
 {    
-    if ((var->count_la / 2) < var->pos_smaller) { 
+    if ((var->count_la / 2) < var->pos_smaller) {
         var->pos_smaller = var->count_la - var->pos_smaller;
-        var->side1 = 1;
     }
 
-    if ((var->count_la / 2) < var->pos_bigger) { 
+    if ((var->count_la / 2) < var->pos_bigger) {
         var->pos_bigger = var->count_la - var->pos_bigger;
-        var->side2 = 1;
     }
 
-    if (var->pos_bigger >= var->pos_smaller)
-        var->side = var->side2;
-    else if (var->pos_bigger < var->pos_smaller)
-        var->side = var->side1;
-
-    if (var->side == 1) {
+    printf("total_dis_big %d\n", var->pos_bigger);
+    printf("total_dis_small %d\n", var->pos_smaller);
+    if (var->pos_bigger <= var->pos_smaller) {
         while (var->pos_bigger > 0) {
             func_rra(*l_a);
             var->pos_bigger--;
         }
         func_pb(l_a, l_b, var);
     }
-    else if (var->side == 0) {
+    if (var->pos_bigger > var->pos_smaller) {
         while (var->pos_smaller > 0) {
             func_ra(*l_a);
             var->pos_smaller--;
         }
         func_pb(l_a, l_b, var);
     }
-    var->side = 0;
 }
 
 void algorithm_sort(t_node **l_a, t_node **l_b, t_variables *var)
@@ -276,30 +261,14 @@ void algorithm_sort(t_node **l_a, t_node **l_b, t_variables *var)
         pos++;
         tmp_a = tmp_a->nextPtr;
     }
-
-    //printf("valor mes gran: %d\n", var->bigger);
-    //printf("en la posicion: %d\n", var->pos_bigger);
-    //printf("valor mes petit: %d\n", var->smaller);
-    //printf("en la posicion: %d\n", var->pos_smaller);
+    printf("valor mes gran: %d\n", var->bigger);
+    printf("en la posicion: %d\n", var->pos_bigger);
+    printf("valor mes petit: %d\n", var->smaller);
+    printf("en la posicion: %d\n", var->pos_smaller);
 
     find_closer(var, l_a, l_b);
-}
-
-
-void algorithm_sort2(t_node **l_a, t_node **l_b, t_variables *var)
-{
-    t_node *tmp_a = *l_a;
-    var->smaller = (*l_a)->data;
-    var->bigger = (*l_a)->data;
-    var->pos_smaller = 0;
-    var->pos_bigger = 0;
-    int pos = 0;
-    
-    while (var->count_lb != 0) {
-        func_pa(l_a, l_b, var);
-        if ((*l_a)->data > (*l_a)->nextPtr->data)
-            func_ra(*l_a);
-    }
+    printlinked(*l_a);
+    printlinked(*l_b);
 }
 
 
@@ -316,10 +285,9 @@ int main(int argc, char **argv)
     l_a = l_a->nextPtr; //NO Eliminar
     l_b = l_b->nextPtr; //NO Eliminar
     //algorithm_sort(l_a, l_b, &var);
-    while (check_sorted(argc, l_a) != 1 && var.count_la > 1) {
+    while (check_sorted(argc, l_a) != 1 || var.count_la > 1) {
         algorithm_sort(&l_a, &l_b, &var);
     }
-    algorithm_sort2(&l_a, &l_b, &var);
     printlinked(l_a);
     printlinked(l_b);
     //check_sorted(argc, l_a);

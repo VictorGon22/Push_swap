@@ -23,14 +23,12 @@ void func_rra(t_node *l_a)
     }
     tmp = l_a;
     tmp->data = data;
-    printf("RRA\n");
 }
 
 void func_rrr(t_node *l_a, t_node *l_b)
 {
     func_rra(l_a);
     func_rra(l_b);
-    printf("RRR\n");
 }
 
 void func_ra(t_node *l_a)
@@ -46,7 +44,7 @@ void func_ra(t_node *l_a)
         tmp = tmp->nextPtr;
     }
     tmp->data = data;
-    printf("RA\n");
+    printf("PB\n");
 }
 
 void func_rr(t_node *l_a, t_node *l_b)
@@ -94,7 +92,6 @@ void func_sa(t_node *l_a, t_variables *var)
     }
     else
         printf("Not enough arguments in l_a\n");
-    printf("SA\n");
 }
 
 void func_sb(t_node *l_b, t_variables *var) 
@@ -109,14 +106,12 @@ void func_sb(t_node *l_b, t_variables *var)
     }
     else
         printf("Not enough arguments in l_b\n");
-    printf("SB\n");
 }
 
 void func_sc(t_node *l_a, t_node *l_b, t_variables *var)
 {
     func_sa(l_a, var);
     func_sb(l_b, var);
-    printf("SC\n");
 }
 
 void printlinked(t_node *file)
@@ -247,9 +242,11 @@ void find_closer(t_variables *var, t_node **l_a, t_node **l_b)
     }
     else if (var->side == 0) {
         while (var->pos_smaller > 0) {
+            printlinked(*l_a);
             func_ra(*l_a);
             var->pos_smaller--;
         }
+        printlinked(*l_a);
         func_pb(l_a, l_b, var);
     }
     var->side = 0;
@@ -283,6 +280,8 @@ void algorithm_sort(t_node **l_a, t_node **l_b, t_variables *var)
     //printf("en la posicion: %d\n", var->pos_smaller);
 
     find_closer(var, l_a, l_b);
+    printlinked(*l_a);
+    printlinked(*l_b);
 }
 
 
@@ -300,6 +299,9 @@ void algorithm_sort2(t_node **l_a, t_node **l_b, t_variables *var)
         if ((*l_a)->data > (*l_a)->nextPtr->data)
             func_ra(*l_a);
     }
+    
+    printlinked(*l_a);
+    printlinked(*l_b);
 }
 
 

@@ -283,6 +283,8 @@ void algorithm_sort(t_node **l_a, t_node **l_b, t_variables *var)
     //printf("en la posicion: %d\n", var->pos_smaller);
 
     find_closer(var, l_a, l_b);
+    printlinked(*l_a);
+    printlinked(*l_b);
 }
 
 
@@ -300,6 +302,9 @@ void algorithm_sort2(t_node **l_a, t_node **l_b, t_variables *var)
         if ((*l_a)->data > (*l_a)->nextPtr->data)
             func_ra(*l_a);
     }
+    
+    printlinked(*l_a);
+    printlinked(*l_b);
 }
 
 

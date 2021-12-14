@@ -300,6 +300,9 @@ void algorithm_sort2(t_node **l_a, t_node **l_b, t_variables *var)
         if ((*l_a)->data > (*l_a)->nextPtr->data)
             func_ra(*l_a);
     }
+    
+    printlinked(*l_a);
+    printlinked(*l_b);
 }
 
 
