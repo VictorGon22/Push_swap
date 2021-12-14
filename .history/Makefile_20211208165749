@@ -1,0 +1,45 @@
+##
+## EPITECH PROJECT, 2021
+## d10
+## File description:
+## description
+##
+
+OBJ = $(SRCS_C:.c=.o)
+
+LIB = -L./lib/my -lmy
+
+SFLAGS = -lcsfml-graphics -lcsfml-window -lcsfml-audio -lcsfml-system
+
+CFLAGS = -W -Werror -Wextra -Wall
+
+SRC		=	sources/
+
+SRC_C	=	my_ls.c 			\
+			flags.c 			\
+			function_pointers.c	\
+			info_file.c			\
+			info_file2.c		\
+			my_strcat.c 		\
+			save_info.c			\
+			errorhandeling.c
+
+SRCS_C	= 	$(addprefix $(SRC), $(SRC_C))
+
+CFLAGS = -I./include
+
+NAME = 		my_ls
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	gcc -o  $(NAME) $(OBJ) $(CFLAGS)
+
+clean:
+	rm -f $(OBJ)
+
+fclean: clean
+	rm -f $(NAME)
+
+re:	fclean all
+	make clean
