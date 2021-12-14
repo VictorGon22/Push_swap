@@ -132,15 +132,12 @@ void printlinked(t_node *file)
 int check_sorted(t_variables *var, t_node *l_a)
 {
     t_node *tmp = l_a;
-    int i = 1;
+    int i = 0;
     while (tmp->nextPtr != NULL && (tmp->data) <= (tmp->nextPtr->data)) {
         tmp = tmp->nextPtr;
         i++;
     }
-    //printf("%d\n", i);
-    //printf("%d\n", var->count_la);
     if (i == (var->count_la)) {
-        //printf("SORTED \n");
         return (1);
     }
     return (0);
@@ -210,8 +207,8 @@ int get_last_value(t_node *l_a)
 void find_closer(t_variables *var, t_node **l_a, t_node **l_b)
 {   
     int pos_to_move = 0;
-    int tmp_small = var->pos_smaller;
-    int tmp_big = var->pos_bigger;
+    int tmp_small = 0;
+    int tmp_big = 0;
     var->side1 = 0;
     var->side2 = 0;
     
@@ -220,12 +217,12 @@ void find_closer(t_variables *var, t_node **l_a, t_node **l_b)
         var->side1 = 1;
     }
 
-    //printf("distancia a moure petit: %d\n", tmp_small);
+    printf("distancia a moure petit: %d\n", tmp_small);
     if ((var->count_la / 2) < var->pos_bigger) { 
         tmp_big = var->count_la - var->pos_bigger;
         var->side2 = 1;
     }
-    //printf("distancia a moure gran: %d\n", tmp_big);
+    printf("distancia a moure gran: %d\n", tmp_big);
 
     if (tmp_big <= tmp_small) {
         var->side = var->side2;
@@ -235,7 +232,7 @@ void find_closer(t_variables *var, t_node **l_a, t_node **l_b)
         var->side = var->side1;
         pos_to_move = tmp_small;
     }
-    //printf("distancia a moure final: %d\n",pos_to_move);
+    printf("distancia a moure final: %d\n",pos_to_move);
     if (var->side == 1) {
         while (pos_to_move > 0) {
             func_rra(*l_a);
@@ -274,12 +271,12 @@ void algorithm_sort(t_node **l_a, t_node **l_b, t_variables *var)
         pos++;
         tmp_a = tmp_a->nextPtr;
     }
-    //printlinked(*l_a);
-    //printlinked(*l_b);
-    //printf("valor mes gran: %d\n", var->bigger);
-    //printf("en la posicion: %d\n", var->pos_bigger);
-    //printf("valor mes petit: %d\n", var->smaller);
-    //printf("en la posicion: %d\n", var->pos_smaller);
+    printlinked(*l_a);
+    printlinked(*l_b);
+    printf("valor mes gran: %d\n", var->bigger);
+    printf("en la posicion: %d\n", var->pos_bigger);
+    printf("valor mes petit: %d\n", var->smaller);
+    printf("en la posicion: %d\n", var->pos_smaller);
     find_closer(var, l_a, l_b);
 }
 
@@ -308,13 +305,12 @@ int main(int argc, char **argv)
     var.count_la = (argc - 1);
     var.count_lb = 0;
     var.argc = argc;
-
-    if (argc < 2)
-        return (84);
-    save(argc, argv, l_a);
-    l_a = l_a->nextPtr;
-    l_b = l_b->nextPtr;
     
+    save(argc, argv, l_a);
+    printf("numero de variables %d\n", var.count_la);
+    l_a = l_a->nextPtr; //NO Eliminar
+    l_b = l_b->nextPtr; //NO Eliminar
+    check_sorted(&var, l_a);
     while (check_sorted(&var, l_a) != 1 && var.count_la > 1) {
         algorithm_sort(&l_a, &l_b, &var);
     }
@@ -322,8 +318,6 @@ int main(int argc, char **argv)
     printf("\n");
     printlinked(l_a);
     printlinked(l_b);
-    if(check_sorted(&var, l_a))
-        printf("SORTED");
     free_node(l_a, l_b);
     return (0);
 }

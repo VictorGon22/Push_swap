@@ -308,13 +308,12 @@ int main(int argc, char **argv)
     var.count_la = (argc - 1);
     var.count_lb = 0;
     var.argc = argc;
-
-    if (argc < 2)
-        return (84);
-    save(argc, argv, l_a);
-    l_a = l_a->nextPtr;
-    l_b = l_b->nextPtr;
     
+    save(argc, argv, l_a);
+    //printf("numero de variables %d\n", var.count_la);
+    l_a = l_a->nextPtr; //NO Eliminar
+    l_b = l_b->nextPtr; //NO Eliminar
+    check_sorted(&var, l_a);
     while (check_sorted(&var, l_a) != 1 && var.count_la > 1) {
         algorithm_sort(&l_a, &l_b, &var);
     }
@@ -322,8 +321,6 @@ int main(int argc, char **argv)
     printf("\n");
     printlinked(l_a);
     printlinked(l_b);
-    if(check_sorted(&var, l_a))
-        printf("SORTED");
     free_node(l_a, l_b);
     return (0);
 }

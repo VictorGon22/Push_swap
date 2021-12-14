@@ -310,10 +310,11 @@ int main(int argc, char **argv)
     var.argc = argc;
 
     if (argc < 2)
-        return (84);
+        return (84)
     save(argc, argv, l_a);
-    l_a = l_a->nextPtr;
-    l_b = l_b->nextPtr;
+    //printf("numero de variables %d\n", var.count_la);
+    l_a = l_a->nextPtr; //NO Eliminar
+    l_b = l_b->nextPtr; //NO Eliminar
     
     while (check_sorted(&var, l_a) != 1 && var.count_la > 1) {
         algorithm_sort(&l_a, &l_b, &var);

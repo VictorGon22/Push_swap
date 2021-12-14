@@ -132,15 +132,14 @@ void printlinked(t_node *file)
 int check_sorted(t_variables *var, t_node *l_a)
 {
     t_node *tmp = l_a;
-    int i = 1;
+    int i = 0;
     while (tmp->nextPtr != NULL && (tmp->data) <= (tmp->nextPtr->data)) {
         tmp = tmp->nextPtr;
         i++;
     }
-    //printf("%d\n", i);
-    //printf("%d\n", var->count_la);
+    printf("%d", i);
     if (i == (var->count_la)) {
-        //printf("SORTED \n");
+        printf("SORTED \n");
         return (1);
     }
     return (0);
@@ -308,13 +307,12 @@ int main(int argc, char **argv)
     var.count_la = (argc - 1);
     var.count_lb = 0;
     var.argc = argc;
-
-    if (argc < 2)
-        return (84);
-    save(argc, argv, l_a);
-    l_a = l_a->nextPtr;
-    l_b = l_b->nextPtr;
     
+    save(argc, argv, l_a);
+    //printf("numero de variables %d\n", var.count_la);
+    l_a = l_a->nextPtr; //NO Eliminar
+    l_b = l_b->nextPtr; //NO Eliminar
+    check_sorted(&var, l_a);
     while (check_sorted(&var, l_a) != 1 && var.count_la > 1) {
         algorithm_sort(&l_a, &l_b, &var);
     }
@@ -322,8 +320,6 @@ int main(int argc, char **argv)
     printf("\n");
     printlinked(l_a);
     printlinked(l_b);
-    if(check_sorted(&var, l_a))
-        printf("SORTED");
     free_node(l_a, l_b);
     return (0);
 }
