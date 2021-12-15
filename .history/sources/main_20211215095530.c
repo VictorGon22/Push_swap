@@ -1,0 +1,55 @@
+/*
+** EPITECH PROJECT, 2021
+** function main
+** File description:
+** start the project
+*/
+
+#include "./../includes/libraries.h"
+#include "./../includes/structs.h"
+
+// Hasta aqui en algorithm.c
+void errornumber_elements(t_variables *var)
+{
+    if (var->argc < 2)
+        exit (84);
+    if (var->argc == 2) {
+        printf("%s",var->argv[1]);
+        exit (1);
+    }
+}
+
+void error_manager(t_variables *var)
+{
+    errornumber_elements(var);
+}
+
+int main(int argc, char **argv)
+{
+    t_node *l_a = malloc(sizeof(t_node *));
+    t_node *l_b = malloc(sizeof(t_node *));
+    t_variables var;
+
+    var.count_la = (argc - 1);
+    var.count_lb = 0;
+    var.argc = argc;
+    var.argv = argv;
+
+    error_manager(&var);
+    save(argc, argv, l_a);
+    l_a = l_a->nextPtr;
+    l_b = l_b->nextPtr;
+    if(check_sorted(&var, l_a))
+        printf("SORTED");
+    while (check_sorted(&var, l_a) != 1 && var.count_la > 1) {
+        algorithm_sort(&l_a, &l_b, &var);
+    }
+    algorithm_sort2(&l_a, &l_b, &var);
+    printf("\n");
+    printlinked(l_a);
+    printlinked(l_b);
+    if(check_sorted(&var, l_a))
+        printf("SORTED");
+    free_node(l_a, l_b);
+    return (0);
+}
